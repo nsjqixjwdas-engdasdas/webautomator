@@ -4,12 +4,15 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: actions/setup-python@v4
       with:
         python-version: '3.10'
     - run: pip install selenium webdriver-manager pyinstaller
-    - run: pyinstaller --onefile --windowed --hidden-import=selenium --hidden-import=webdriver_manager --hidden-import=selenium.webdriver.chrome.service --hidden-import=selenium.webdriver.common.by --name "Automator_Pro" main.py
+    - run: pip install --upgrade pyinstaller
+    - name: Build EXE
+      run: |
+        pyinstaller --onefile --windowed --collect-all selenium --collect-all webdriver_manager --name "Automator_Pro" main.py
     - uses: actions/upload-artifact@v4
       with:
         name: Automator_Pro
